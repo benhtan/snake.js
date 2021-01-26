@@ -8,8 +8,13 @@
 table, tr, td {
     border: 1px solid black;
     border-collapse: collapse;
+    background-color: white;
 }
 
 .black_cell {
     background-color: black;
+}
+
+.white_cell {
+    background-color: white;
 }

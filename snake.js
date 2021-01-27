@@ -7,6 +7,9 @@ let snake = [
 ];
 let snake_dir = 'right';
 
+// time in ms. the higher, the slower
+const snake_speed = 1000;
+
 document.addEventListener('DOMContentLoaded', function() {
     // get div where table should be
     const gameCanvas = document.querySelector('#gameCanvas');
@@ -21,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // draw initial snake
     drawSnake();
 
     document.addEventListener('keydown', event => {
@@ -36,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } 
     });
 
-    setInterval(moveSnake, 1000);
+    setInterval(moveSnake, snake_speed);
     
 });
 
@@ -53,6 +57,7 @@ function convertKeyCode(keyCode) {
     }
 }
 
+// check for opposite move
 function oppositeMove(m1, m2) {
     if (m1 === 'left' && m2 === 'right') {return true;}
     else if (m1 === 'right' && m2 === 'left') {return true;}
@@ -96,9 +101,8 @@ function moveSnake() {
 
     // add new head to snake array
     snake.push(new_head);
+    gameCanvas.querySelector(`#X${new_head.x}Y${new_head.y}`).className = 'black_cell';
     // console.log(`snake after: ${JSON.stringify(snake)}`)
-
-    drawSnake();
 }
 
 // snake.js:24 KeyboardEvent {isTrusted: true, key: "ArrowRight", code: "ArrowRight", location: 0, ctrlKey: false, …}

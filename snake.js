@@ -1,9 +1,9 @@
 const gridCount = 51;   // has to be odd number
 const center_coord = Math.ceil(51/2);
 let snake = [
-    // {x:center_coord + 1, y:center_coord},
-    // {x:center_coord, y:center_coord},
-    {x:center_coord -1, y:center_coord}
+    {x:center_coord - 1, y:center_coord},
+    {x:center_coord, y:center_coord},
+    {x:center_coord + 1, y:center_coord}
 ];
 let snake_dir = 'ArrowRight';
 
@@ -24,12 +24,35 @@ document.addEventListener('DOMContentLoaded', function() {
     drawSnake();
 
     document.addEventListener('keydown', event => {
-        if (snake_dir === 'ArrowRight' || snake_dir === 'KeyD' || snake_dir === 'ArrowLeft' || snake_dir === 'KeyA' || snake_dir === 'ArrowUp' || snake_dir === 'KeyW' || snake_dir === 'ArrowUp' || snake_dir === 'KeyW') {snake_dir = event.code;}
+        const action_keys = ['ArrowRight', 'KeyD', 'ArrowLeft', 'KeyA', 'ArrowUp', 'KeyW', 'ArrowDown', 'KeyS'];
+
+        if (action_keys.includes(event.code) && snake_dir != event.code) {
+            snake_dir = event.code;
+            moveSnake();
+            // console.log(snake_dir);
+        }
+        
     });
 
     setInterval(moveSnake, 1000);
     
 });
+
+// convert key code to left right up down
+function convertKeyCode(keyCode) {
+    if (keyCode === 'ArrowRight' || keyCode === 'KeyD') {return 'right';}
+    else if (keyCode === 'ArrowLeft' || keyCode === 'KeyA') {return 'left';}
+    else if (keyCode === 'ArrowUp' || keyCode === 'KeyW') {return 'up'}
+    else if (keyCode === 'ArrowDown' || keyCode === 'KeyS') {return 'down';}
+}
+
+function oppositeMove(m1, m2) {
+    if (m1 === 'left' && m2 === 'right') {return true;}
+    else if (m1 === 'right' && m2 === 'left') {return true;}
+    else if (m1 === 'up' && m2 === 'down') {return true;}
+    else if (m1 === 'down' && m2 === 'up') {return true;}
+    else {return false;}
+}
 
 function drawSnake() {
     snake.forEach(section => {
@@ -39,26 +62,35 @@ function drawSnake() {
 }
 
 function moveSnake() {
+    // make tail of snake white
+    gameCanvas.querySelector(`#X${snake[0].x}Y${snake[0].y}`).className = 'white_cell';
+    // console.log(`snake initial: ${JSON.stringify(snake)}`)
+
+    // remove tail from array
+    snake.shift();
+    // console.log(`snake remove tail: ${JSON.stringify(snake)}`)
+
+    let old_head = snake[snake.length - 1];
+    let new_head = {x: old_head.x, y:old_head.y};
+    // console.log(`new head: ${JSON.stringify(new_head)}`)
+
     if (snake_dir === 'ArrowRight' || snake_dir === 'KeyD') {
-        snake.forEach(section => {
-            section.x += 1;
-        })
+        new_head.x += 1;
     }
     else if (snake_dir === 'ArrowLeft' || snake_dir === 'KeyA') {
-        snake.forEach(section => {
-            section.x -= 1;
-        })
+        new_head.x -= 1;
     }
     else if (snake_dir === 'ArrowUp' || snake_dir === 'KeyW') {
-        snake.forEach(section => {
-            section.y -= 1;
-        })
+        new_head.y -= 1;
     }
     else if (snake_dir === 'ArrowDown' || snake_dir === 'KeyS') {
-        snake.forEach(section => {
-            section.y += 1;
-        })
+        new_head.y += 1;
     }
+
+    // add new head to snake array
+    snake.push(new_head);
+    // console.log(`snake after: ${JSON.stringify(snake)}`)
+
     drawSnake();
 }
 

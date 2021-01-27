@@ -5,7 +5,7 @@ let snake = [
     {x:center_coord, y:center_coord},
     {x:center_coord + 1, y:center_coord}
 ];
-let snake_dir = 'ArrowRight';
+let snake_dir = 'right';
 
 document.addEventListener('DOMContentLoaded', function() {
     // get div where table should be
@@ -26,12 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', event => {
         const action_keys = ['ArrowRight', 'KeyD', 'ArrowLeft', 'KeyA', 'ArrowUp', 'KeyW', 'ArrowDown', 'KeyS'];
 
-        if (action_keys.includes(event.code) && snake_dir != event.code) {
-            snake_dir = event.code;
-            moveSnake();
-            // console.log(snake_dir);
-        }
-        
+        if (action_keys.includes(event.code)) {
+            const new_dir = convertKeyCode(event.code)
+            if (snake_dir != new_dir && !oppositeMove(snake_dir, new_dir)) {
+                snake_dir = new_dir;
+                moveSnake();
+                // console.log(snake_dir);
+            }
+        } 
     });
 
     setInterval(moveSnake, 1000);
@@ -44,6 +46,11 @@ function convertKeyCode(keyCode) {
     else if (keyCode === 'ArrowLeft' || keyCode === 'KeyA') {return 'left';}
     else if (keyCode === 'ArrowUp' || keyCode === 'KeyW') {return 'up'}
     else if (keyCode === 'ArrowDown' || keyCode === 'KeyS') {return 'down';}
+    else {
+        const msg = 'Wrong keyCode inserted to function';
+        console.log(msg);
+        throw msg;
+    }
 }
 
 function oppositeMove(m1, m2) {
@@ -74,16 +81,16 @@ function moveSnake() {
     let new_head = {x: old_head.x, y:old_head.y};
     // console.log(`new head: ${JSON.stringify(new_head)}`)
 
-    if (snake_dir === 'ArrowRight' || snake_dir === 'KeyD') {
+    if (snake_dir === 'right') {
         new_head.x += 1;
     }
-    else if (snake_dir === 'ArrowLeft' || snake_dir === 'KeyA') {
+    else if (snake_dir === 'left') {
         new_head.x -= 1;
     }
-    else if (snake_dir === 'ArrowUp' || snake_dir === 'KeyW') {
+    else if (snake_dir === 'up') {
         new_head.y -= 1;
     }
-    else if (snake_dir === 'ArrowDown' || snake_dir === 'KeyS') {
+    else if (snake_dir === 'down') {
         new_head.y += 1;
     }
 

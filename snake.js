@@ -1,9 +1,15 @@
 const gridCount = 51;   // has to be odd number
 const center_coord = Math.ceil(51/2);
 const starting_snake = [
+    {x:center_coord - 4, y:center_coord},
+    {x:center_coord - 3, y:center_coord},
+    {x:center_coord - 2, y:center_coord},
     {x:center_coord - 1, y:center_coord},
     {x:center_coord, y:center_coord},
-    {x:center_coord + 1, y:center_coord}
+    {x:center_coord + 1, y:center_coord},
+    {x:center_coord + 2, y:center_coord},
+    {x:center_coord + 3, y:center_coord},
+    {x:center_coord + 4, y:center_coord},
 ];
 
 let snake = [...starting_snake];
@@ -11,7 +17,7 @@ let snake = [...starting_snake];
 let snake_dir = 'right';
 
 // time in ms. the higher, the slower
-const snake_speed = 100;
+const snake_speed = 500;
 var snake_interval = null;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -89,20 +95,31 @@ function drawSnake() {
     })
 }
 
+// check if new head is out of bound or hits its own body
 function checkForHit(new_head) {
-    if (new_head.x >= gridCount || new_head.x < 0 || new_head.y >= gridCount || new_head.y < 0 || snake.includes(new_head)) {
+    // console.log(checkForBodyHit(new_head))
+    if (new_head.x >= gridCount || new_head.x < 0 || new_head.y >= gridCount || new_head.y < 0 || checkForBodyHit(new_head)) {
         clearInterval(snake_interval);
         alert('You lose!')
         return true;
     }
+    return false;
+}
+
+//check if new head hit its own body
+function checkForBodyHit(new_head) {
+    for (i = 0; i < snake.length; i++) {
+        if (snake[i].x === new_head.x && snake[i].y === new_head.y) {return true;}
+    }
+    return false;
 }
 
 function moveSnake() {
     const old_head = snake[snake.length - 1];
-    let new_head = {x: old_head.x, y:old_head.y};
+    let new_head = {...old_head};
     // console.log(`new head: ${JSON.stringify(new_head)}`)
 
-    // calculate value for new head
+    // calculate coord for new head
     if (snake_dir === 'right') {
         new_head.x += 1;
     }

@@ -1,5 +1,7 @@
 const gridCount = 51;   // has to be odd number
 const center_coord = Math.ceil(51/2);
+var score = 0;
+var food = [];
 const starting_snake = [
     {x:center_coord - 4, y:center_coord},
     {x:center_coord - 3, y:center_coord},
@@ -17,7 +19,7 @@ let snake = [...starting_snake];
 let snake_dir = 'right';
 
 // time in ms. the higher, the slower
-const snake_speed = 500;
+const snake_speed = 100;
 var snake_interval = null;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -58,12 +60,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // spawn food
 function spawnFood() {
-    const x_coord = Math.ceil(Math.random() * (gridCount - 1));
-    const y_coord = Math.ceil(Math.random() * (gridCount - 1));
+    while (true) {
+        // generate random coordinates
+        const x_coord = Math.ceil(Math.random() * (gridCount - 1));
+        const y_coord = Math.ceil(Math.random() * (gridCount - 1));
+        const coord = {x: x_coord,y: y_coord}
 
-    // console.log(`x: ${x_coord} y: ${y_coord}`)
+        // if food is not at body, then spawn it
+        if(!checkForBodyHit(coord)) {
+            // update food array
+            if (food.length > 0) {food.shift();}
+            food.push(coord);
 
-    gameCanvas.querySelector(`#X${x_coord}Y${y_coord}`).className = 'green_cell';
+            // color cell
+            gameCanvas.querySelector(`#X${x_coord}Y${y_coord}`).className = 'green_cell';
+            break;
+        }
+    }
 }
 
 //reset interval of snake movement
@@ -146,21 +159,30 @@ function moveSnake() {
 
     // if we don't hit wall or ourselves then create new head and delete tail
     if (!checkForHit(new_head)) {
-        // make tail of snake white
-        gameCanvas.querySelector(`#X${snake[0].x}Y${snake[0].y}`).className = 'white_cell';
-        // console.log(`snake initial: ${JSON.stringify(snake)}`)
+        // check for eating food
+        if (new_head.x === food[0].x && new_head.y === food[0].y) {
+            addScore();
+            spawnFood();
+        }
+        else {
+            // make tail of snake white
+            gameCanvas.querySelector(`#X${snake[0].x}Y${snake[0].y}`).className = 'white_cell';
+            // console.log(`snake initial: ${JSON.stringify(snake)}`)
 
-        // remove tail from array
-        snake.shift();
-        // console.log(`snake remove tail: ${JSON.stringify(snake)}`)
-
+            // remove tail from array
+            snake.shift();
+            // console.log(`snake remove tail: ${JSON.stringify(snake)}`)
+        }
         // add new head to snake array and make it black
         snake.push(new_head);
         gameCanvas.querySelector(`#X${new_head.x}Y${new_head.y}`).className = 'black_cell';
         // console.log(`snake after: ${JSON.stringify(snake)}`)
     }
+}
 
-
+function addScore() {
+    score += 1;
+    document.querySelector('#score').innerHTML = score;
 }
 
 // snake.js:24 KeyboardEvent {isTrusted: true, key: "ArrowRight", code: "ArrowRight", location: 0, ctrlKey: false, …}

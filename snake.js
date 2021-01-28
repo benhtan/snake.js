@@ -19,7 +19,7 @@ let snake = [...starting_snake];
 let snake_dir = 'right';
 
 // time in ms. the higher, the slower
-const snake_speed = 100;
+var snake_speed = 200;
 var snake_interval = null;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tableRow.append(tableData);
         }
     }
+
+    updateSpeed()
 
     // draw initial snake
     drawSnake();
@@ -57,6 +59,15 @@ document.addEventListener('DOMContentLoaded', function() {
     snake_interval = setInterval(moveSnake, snake_speed);
     spawnFood();
 });
+
+// handling speed slider
+function updateSpeed() {
+    const slider = document.querySelector('#speed-slider');
+    slider.addEventListener('input', function() {
+        snake_speed = (-112.9*Math.log(Math.ceil(slider.value))) + 519.89;
+        resetSnakeMovement()
+    });
+}
 
 // spawn food
 function spawnFood() {
@@ -184,6 +195,21 @@ function addScore() {
     score += 1;
     document.querySelector('#score').innerHTML = score;
 }
+
+// speed slider curve
+// x	y
+// 1	500
+// 10	300
+// 20	200
+// 30	130
+// 40	100
+// 50	70
+// 60	40
+// 70	30
+// 80	20
+// 90	15
+// 100	10
+
 
 // snake.js:24 KeyboardEvent {isTrusted: true, key: "ArrowRight", code: "ArrowRight", location: 0, ctrlKey: false, …}
 // snake.js:24 KeyboardEvent {isTrusted: true, key: "ArrowLeft", code: "ArrowLeft", location: 0, ctrlKey: false, …}

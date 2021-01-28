@@ -136,6 +136,7 @@ function checkForHit(new_head) {
     if (new_head.x >= gridCount || new_head.x < 0 || new_head.y >= gridCount || new_head.y < 0 || checkForBodyHit(new_head)) {
         clearInterval(snake_interval);
         alert('You lose!')
+        addScore(true);
         return true;
     }
     return false;

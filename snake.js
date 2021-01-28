@@ -191,8 +191,13 @@ function moveSnake() {
     }
 }
 
-function addScore() {
-    score += 1;
+function addScore(reset = false) {
+    if (reset) {
+        score = 0;
+    }
+    else {
+        score += Math.ceil(document.querySelector('#speed-slider').value);
+    }    
     document.querySelector('#score').innerHTML = score;
 }
 

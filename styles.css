@@ -18,3 +18,11 @@ table, tr, td {
 .white_cell {
     background-color: white;
 }
+
+.red_cell {
+    background-color: red;
+}
+
+.green_cell {
+    background-color: green;
+}

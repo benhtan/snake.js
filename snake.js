@@ -53,7 +53,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // move snake at start of game
     snake_interval = setInterval(moveSnake, snake_speed);
+    spawnFood();
 });
+
+// spawn food
+function spawnFood() {
+    const x_coord = Math.ceil(Math.random() * (gridCount - 1));
+    const y_coord = Math.ceil(Math.random() * (gridCount - 1));
+
+    // console.log(`x: ${x_coord} y: ${y_coord}`)
+
+    gameCanvas.querySelector(`#X${x_coord}Y${y_coord}`).className = 'green_cell';
+}
 
 //reset interval of snake movement
 function resetSnakeMovement() {

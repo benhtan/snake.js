@@ -65,7 +65,9 @@ function updateSpeed() {
     const slider = document.querySelector('#speed-slider');
     slider.addEventListener('input', function() {
         snake_speed = (-112.9*Math.log(Math.ceil(slider.value))) + 519.89;
-        resetSnakeMovement()
+        //console.log(snake_interval);
+        // if snake is moving than update the movement speed
+        if (snake_interval) {resetSnakeMovement();}
     });
 }
 
@@ -135,8 +137,9 @@ function checkForHit(new_head) {
     // console.log(checkForBodyHit(new_head))
     if (new_head.x >= gridCount || new_head.x < 0 || new_head.y >= gridCount || new_head.y < 0 || checkForBodyHit(new_head)) {
         clearInterval(snake_interval);
+        snake_interval = null;  // this is set to null so that changing the slider won't move the snake after snake is dead
         alert('You lose!')
-        addScore(true);
+        addScore(true); // reset score to 0
         return true;
     }
     return false;

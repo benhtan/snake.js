@@ -86,6 +86,7 @@ function buttonAction() {
             if (button.dataset.name === 'play') {resetSnakeMovement();}
             else if (button.dataset.name === 'pause') {clearInterval(snake_interval);}
             else {
+                clearCanvas()
                 snake = [...starting_snake];
                 drawSnake();
                 spawnFood();
@@ -98,11 +99,8 @@ function buttonAction() {
 // make all cell white
 function clearCanvas() {
     for (i = 0; i < gridCount; i++) {
-        tableRow = document.createElement('tr');
-        gameCanvas.append(tableRow);
         for (j = 0; j< gridCount; j++) {
-            tableData = document.createElement('td'); tableData.id = `X${j}Y${i}`
-            tableRow.append(tableData);
+            gameCanvas.querySelector(`#X${j}Y${i}`).className = 'white_cell';
         }
     }
 }

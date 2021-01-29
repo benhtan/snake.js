@@ -35,7 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         set_snake_speed()
     }
-
+    
+    // set button action
+    buttonAction()
 
     // get div where table should be
     const gameCanvas = document.querySelector('#gameCanvas');
@@ -72,10 +74,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });  
 
     // move snake at start of game
-    resetSnakeMovement();
+    // resetSnakeMovement();
 
     spawnFood();
 });
+
+// add event listener to button
+function buttonAction() {
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+            if (button.dataset.name === 'play') {resetSnakeMovement();}
+            else if (button.dataset.name === 'pause') {clearInterval(snake_interval);}
+            else {
+                snake = [...starting_snake];
+                drawSnake();
+                spawnFood();
+                clearInterval(snake_interval);
+            }
+        });
+    });
+}
+
+// make all cell white
+function clearCanvas() {
+    for (i = 0; i < gridCount; i++) {
+        tableRow = document.createElement('tr');
+        gameCanvas.append(tableRow);
+        for (j = 0; j< gridCount; j++) {
+            tableData = document.createElement('td'); tableData.id = `X${j}Y${i}`
+            tableRow.append(tableData);
+        }
+    }
+}
 
 // handling speed slider
 function updateSpeed() {

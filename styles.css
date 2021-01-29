@@ -1,6 +1,6 @@
 .score {
     margin: auto;
-    font-size: 4vh;
+    font-size: 3vh;
     text-align: center;
 }
 
@@ -11,10 +11,23 @@
     margin: auto;
 }
 
+#lose {
+    font-size: 5vh;
+    text-align: center;
+    margin: auto;
+    color: red;
+}
+
 table, tr, td {
     /* border: 1px solid black; */
     border-collapse: collapse;
     background-color: white;
+    font-size: 4vh;
+}
+
+.button {
+    text-align: center;
+    margin: auto;
 }
 
 .black_cell {

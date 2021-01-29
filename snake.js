@@ -22,6 +22,16 @@ let snake_dir = 'right';
 var snake_speed = 200;
 var snake_interval = null;
 
+if (typeof(Storage) !== "undefined") {
+    const localScore = localStorage.getItem('score');
+    if (localScore) {
+        score = parsetInt(localScore);
+    }
+}
+else {
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // get div where table should be
     const gameCanvas = document.querySelector('#gameCanvas');
@@ -36,21 +46,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // set snake speed from slider
     updateSpeed()
 
     // draw initial snake
     drawSnake();
 
+    // event listener for controlling snake movement
     document.addEventListener('keydown', event => {
         const action_keys = ['ArrowRight', 'KeyD', 'ArrowLeft', 'KeyA', 'ArrowUp', 'KeyW', 'ArrowDown', 'KeyS'];
 
         if (action_keys.includes(event.code)) {
             const new_dir = convertKeyCode(event.code)
-            if (snake_dir != new_dir && !oppositeMove(snake_dir, new_dir)) {
+            if (snake_dir !== new_dir && !oppositeMove(snake_dir, new_dir)) {
                 snake_dir = new_dir;
                 moveSnake();
                 resetSnakeMovement()
-                // console.log(snake_dir);
+                document.querySelector('#lose').style = "display: none;" // remove lose message
             }
         }
     });  
@@ -94,7 +106,7 @@ function spawnFood() {
 
 //reset interval of snake movement
 function resetSnakeMovement() {
-    if (snake_interval != null) {
+    if (snake_interval !== null) {
         clearInterval(snake_interval);
         snake_interval = setInterval(moveSnake, snake_speed);
     }
@@ -138,7 +150,7 @@ function checkForHit(new_head) {
     if (new_head.x >= gridCount || new_head.x < 0 || new_head.y >= gridCount || new_head.y < 0 || checkForBodyHit(new_head)) {
         clearInterval(snake_interval);
         snake_interval = null;  // this is set to null so that changing the slider won't move the snake after snake is dead
-        alert('You lose!')
+        document.querySelector('#lose').style = "display: block;"
         addScore(true); // reset score to 0
         return true;
     }

@@ -22,17 +22,21 @@ let snake_dir = 'right';
 var snake_speed = 200;
 var snake_interval = null;
 
-if (typeof(Storage) !== "undefined") {
-    const localScore = localStorage.getItem('score');
-    if (localScore) {
-        score = parsetInt(localScore);
-    }
-}
-else {
-
-}
-
+// DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // check local storage for slider
+    if (typeof(Storage) !== "undefined") {
+        const localSliderPosition = localStorage.getItem('localSliderPosition');
+
+        if (localSliderPosition) {
+            document.querySelector('#speed-slider').value = localSliderPosition;
+        } else {
+            localStorage.setItem('localSliderPosition', document.querySelector('#speed-slider').value);
+        }
+        set_snake_speed()
+    }
+
+
     // get div where table should be
     const gameCanvas = document.querySelector('#gameCanvas');
 
@@ -68,20 +72,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });  
 
     // move snake at start of game
-    snake_interval = setInterval(moveSnake, snake_speed);
+    resetSnakeMovement();
+
     spawnFood();
 });
 
 // handling speed slider
 function updateSpeed() {
-    const slider = document.querySelector('#speed-slider');
-    slider.addEventListener('input', function() {
-        snake_speed = (-112.9*Math.log(Math.ceil(slider.value))) + 519.89;
-        //console.log(snake_interval);
-        // if snake is moving than update the movement speed
+    document.querySelector('#speed-slider').addEventListener('input', function() {
+        set_snake_speed();
+
+        // if snake is moving then update the movement speed
         if (snake_interval) {resetSnakeMovement();}
+
+        // update local storage for slider
+        if (typeof(Storage) !== "undefined") {
+            if (localStorage.getItem('localSliderPosition')) {
+                localStorage.setItem('localSliderPosition', document.querySelector('#speed-slider').value);
+            }
+        }
     });
 }
+
+function set_snake_speed() {snake_speed = (-112.9*Math.log(Math.ceil(document.querySelector('#speed-slider').value))) + 519.89;}
 
 // spawn food
 function spawnFood() {

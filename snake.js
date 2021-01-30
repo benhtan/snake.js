@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 snake_dir = new_dir;
                 moveSnake();
                 resetSnakeMovement()
-                document.querySelector('#lose').style = "display: none;" // remove lose message
+                document.querySelector('#lose').style = "color: white;" // remove lose message
             }
         }
     });  
@@ -91,6 +91,8 @@ function buttonAction() {
                 drawSnake();
                 spawnFood();
                 clearInterval(snake_interval);
+                document.querySelector('#lose').style = "color: white;"
+                snake_dir = 'right';
             }
         });
     });
@@ -145,7 +147,7 @@ function spawnFood() {
     }
 }
 
-//reset interval of snake movement
+//reset interval of snake movement making the snake move
 function resetSnakeMovement() {
     if (snake_interval !== null) {
         clearInterval(snake_interval);
@@ -191,7 +193,7 @@ function checkForHit(new_head) {
     if (new_head.x >= gridCount || new_head.x < 0 || new_head.y >= gridCount || new_head.y < 0 || checkForBodyHit(new_head)) {
         clearInterval(snake_interval);
         snake_interval = null;  // this is set to null so that changing the slider won't move the snake after snake is dead
-        document.querySelector('#lose').style = "display: block;"
+        document.querySelector('#lose').style = "color: red;"
         addScore(true); // reset score to 0
         return true;
     }

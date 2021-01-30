@@ -5,7 +5,7 @@
 }
 
 #gameCanvas {
-    border: 1px solid black;
+    border: 3px solid black;
     width: 70vh;
     height: 70vh;
     margin: auto;
@@ -15,18 +15,30 @@
     font-size: 5vh;
     text-align: center;
     margin: auto;
-    color: red;
+    color: white;
+}
+
+#title {
+    font-size: 6vh;
+    text-align: center;
+    margin: auto;
+    color: black;
 }
 
 button {
     outline: none;
 }
 
+body {
+    background-color: white;
+}
+
 table, tr, td {
-    /* border: 1px solid black; */
+    border: 1px solid lightgrey;
     border-collapse: collapse;
     background-color: white;
     font-size: 4vh;
+    table-layout: fixed;
 }
 
 .button {

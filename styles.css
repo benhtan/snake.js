@@ -1,4 +1,16 @@
+.speed {
+    margin: auto;
+    font-size: 3vh;
+    text-align: center;
+}
+
 .score {
+    margin: auto;
+    font-size: 3vh;
+    text-align: center;
+}
+
+.map {
     margin: auto;
     font-size: 3vh;
     text-align: center;
@@ -27,6 +39,7 @@
 
 button {
     outline: none;
+    font-size: 2vh;
 }
 
 body {

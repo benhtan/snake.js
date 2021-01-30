@@ -1,26 +1,33 @@
-const gridCount = 51;   // has to be odd number
-const center_coord = Math.ceil(51/2);
+var gridCount = 51;   // has to be odd number 21-87
+
 var score = 0;
 var food = [];
-const starting_snake = [
-    {x:center_coord - 4, y:center_coord},
-    {x:center_coord - 3, y:center_coord},
-    {x:center_coord - 2, y:center_coord},
-    {x:center_coord - 1, y:center_coord},
-    {x:center_coord, y:center_coord},
-    {x:center_coord + 1, y:center_coord},
-    {x:center_coord + 2, y:center_coord},
-    {x:center_coord + 3, y:center_coord},
-    {x:center_coord + 4, y:center_coord},
-];
-
-let snake = [...starting_snake];
+var starting_snake = [];
+var snake = [];
 
 let snake_dir = 'right';
 
 // time in ms. the higher, the slower
 var snake_speed = 200;
 var snake_interval = null;
+
+// generate snake
+function snakeCoord () {
+    const center_coord = Math.ceil(gridCount/2);
+    starting_snake = [
+        {x:center_coord - 4, y:center_coord},
+        {x:center_coord - 3, y:center_coord},
+        {x:center_coord - 2, y:center_coord},
+        {x:center_coord - 1, y:center_coord},
+        {x:center_coord, y:center_coord},
+        {x:center_coord + 1, y:center_coord},
+        {x:center_coord + 2, y:center_coord},
+        {x:center_coord + 3, y:center_coord},
+        {x:center_coord + 4, y:center_coord},
+    ];
+
+    snake = [...starting_snake];
+}
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -33,29 +40,21 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             localStorage.setItem('localSliderPosition', document.querySelector('#speed-slider').value);
         }
-        set_snake_speed()
+        set_snake_speed();
     }
     
     // set button action
-    buttonAction()
+    buttonAction();
 
-    // get div where table should be
-    const gameCanvas = document.querySelector('#gameCanvas');
-
-    // create table
-    for (i = 0; i < gridCount; i++) {
-        tableRow = document.createElement('tr');
-        gameCanvas.append(tableRow);
-        for (j = 0; j< gridCount; j++) {
-            tableData = document.createElement('td'); tableData.id = `X${j}Y${i}`
-            tableRow.append(tableData);
-        }
-    }
+    //  create game area
+    createTableCanvas();
 
     // set snake speed from slider
-    updateSpeed()
+    updateSpeed();
 
     // draw initial snake
+    setMapSize();
+    snakeCoord ();
     drawSnake();
 
     // event listener for controlling snake movement
@@ -67,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (snake_dir !== new_dir && !oppositeMove(snake_dir, new_dir)) {
                 snake_dir = new_dir;
                 moveSnake();
-                resetSnakeMovement()
-                document.querySelector('#lose').style = "color: white;" // remove lose message
+                resetSnakeMovement();
+                document.querySelector('#lose').style = "color: white;"; // remove lose message
             }
         }
     });  
@@ -122,6 +121,38 @@ function updateSpeed() {
             }
         }
     });
+}
+
+// handling map size slider
+function setMapSize() {
+    document.querySelector('#map-slider').addEventListener('input', function() {
+        let size = parseInt((0.6667*document.querySelector('#map-slider').value) + 20.3333);
+        if (size % 2 === 0) {
+            size += 1;
+        }
+        gridCount = size;
+        
+        createTableCanvas();
+        snakeCoord();
+        drawSnake();
+        spawnFood();
+    });
+}
+
+function createTableCanvas() {
+    // get div where table should be
+    const gameCanvas = document.querySelector('#gameCanvas');
+    gameCanvas.innerHTML = '';
+
+    // create table
+    for (i = 0; i < gridCount; i++) {
+        tableRow = document.createElement('tr');
+        gameCanvas.append(tableRow);
+        for (j = 0; j< gridCount; j++) {
+            tableData = document.createElement('td'); tableData.id = `X${j}Y${i}`
+            tableRow.append(tableData);
+        }
+    }
 }
 
 function set_snake_speed() {snake_speed = (-112.9*Math.log(Math.ceil(document.querySelector('#speed-slider').value))) + 519.89;}
@@ -195,6 +226,7 @@ function checkForHit(new_head) {
         snake_interval = null;  // this is set to null so that changing the slider won't move the snake after snake is dead
         document.querySelector('#lose').style = "color: red;"
         addScore(true); // reset score to 0
+        alert('Ouch! You can continue moving or click reset.');
         return true;
     }
     return false;

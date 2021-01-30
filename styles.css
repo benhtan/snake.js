@@ -1,37 +1,39 @@
 .speed {
     margin: auto;
-    font-size: 3vh;
+    font-size: 2vh;
     text-align: center;
 }
 
 .score {
     margin: auto;
-    font-size: 3vh;
+    font-size: 5vh;
     text-align: center;
+    padding: 1vh;
+    color: maroon;
 }
 
 .map {
     margin: auto;
-    font-size: 3vh;
+    font-size: 2vh;
     text-align: center;
 }
 
 #gameCanvas {
     border: 3px solid black;
-    width: 70vh;
-    height: 70vh;
+    width: 60vh;
+    height: 60vh;
     margin: auto;
 }
 
 #lose {
-    font-size: 5vh;
+    font-size: 4vh;
     text-align: center;
     margin: auto;
     color: white;
 }
 
 #title {
-    font-size: 6vh;
+    font-size: 5vh;
     text-align: center;
     margin: auto;
     color: black;
@@ -48,6 +50,7 @@ button {
 
 body {
     background-color: white;
+    overflow: hidden;
 }
 
 table, tr, td {

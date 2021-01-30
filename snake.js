@@ -33,14 +33,23 @@ function snakeCoord () {
 document.addEventListener('DOMContentLoaded', function() {
     // check local storage for slider
     if (typeof(Storage) !== "undefined") {
-        const localSliderPosition = localStorage.getItem('localSliderPosition');
+        const localSpeedSliderPosition = localStorage.getItem('localSpeedSliderPosition');
 
-        if (localSliderPosition) {
-            document.querySelector('#speed-slider').value = localSliderPosition;
+        if (localSpeedSliderPosition) {
+            document.querySelector('#speed-slider').value = localSpeedSliderPosition;
         } else {
-            localStorage.setItem('localSliderPosition', document.querySelector('#speed-slider').value);
+            localStorage.setItem('localSpeedSliderPosition', document.querySelector('#speed-slider').value);
         }
         set_snake_speed();
+
+        const localMapSliderPosition = localStorage.getItem('localMapSliderPosition');
+
+        if (localMapSliderPosition) {
+            document.querySelector('#map-slider').value = localMapSliderPosition;
+        } else {
+            localStorage.setItem('localMapSliderPosition', document.querySelector('#map-slider').value);
+        }
+        set_gridCount();
     }
     
     // set button action
@@ -56,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setMapSize();
     snakeCoord ();
     drawSnake();
+    spawnFood();
 
     // event listener for controlling snake movement
     document.addEventListener('keydown', event => {
@@ -72,11 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });  
-
-    // move snake at start of game
-    // resetSnakeMovement();
-
-    spawnFood();
 });
 
 // add event listener to button
@@ -118,8 +123,8 @@ function updateSpeed() {
 
         // update local storage for slider
         if (typeof(Storage) !== "undefined") {
-            if (localStorage.getItem('localSliderPosition')) {
-                localStorage.setItem('localSliderPosition', document.querySelector('#speed-slider').value);
+            if (localStorage.getItem('localSpeedSliderPosition')) {
+                localStorage.setItem('localSpeedSliderPosition', document.querySelector('#speed-slider').value);
             }
         }
     });
@@ -128,17 +133,28 @@ function updateSpeed() {
 // handling map size slider
 function setMapSize() {
     document.querySelector('#map-slider').addEventListener('input', function() {
-        let size = parseInt((0.6667*document.querySelector('#map-slider').value) + 20.3333);
-        if (size % 2 === 0) {
-            size += 1;
-        }
-        gridCount = size;
+        set_gridCount();
         
         createTableCanvas();
         snakeCoord();
         drawSnake();
         spawnFood();
+
+        // update local storage for slider
+        if (typeof(Storage) !== "undefined") {
+            if (localStorage.getItem('localMapSliderPosition')) {
+                localStorage.setItem('localMapSliderPosition', document.querySelector('#map-slider').value);
+            }
+        }
     });
+}
+
+function set_gridCount() {
+    let size = parseInt((0.6667*document.querySelector('#map-slider').value) + 20.3333);
+    if (size % 2 === 0) {
+        size += 1;
+    }
+    gridCount = size;
 }
 
 function disableMapSlider(state = true) {

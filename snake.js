@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 moveSnake();
                 resetSnakeMovement();
                 document.querySelector('#lose').style = "color: white;"; // remove lose message
+                disableMapSlider();
             }
         }
     });  
@@ -84,6 +85,7 @@ function buttonAction() {
         button.addEventListener('click', () => {
             if (button.dataset.name === 'play') {resetSnakeMovement();}
             else if (button.dataset.name === 'pause') {clearInterval(snake_interval);}
+            // reset button
             else {
                 clearCanvas()
                 snake = [...starting_snake];
@@ -92,7 +94,7 @@ function buttonAction() {
                 clearInterval(snake_interval);
                 document.querySelector('#lose').style = "color: white;"
                 snake_dir = 'right';
-            }
+                disableMapSlider(false);            }
         });
     });
 }
@@ -137,6 +139,10 @@ function setMapSize() {
         drawSnake();
         spawnFood();
     });
+}
+
+function disableMapSlider(state = true) {
+    document.querySelector('#map-slider').disabled = state;
 }
 
 function createTableCanvas() {

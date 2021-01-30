@@ -15,12 +15,22 @@
             <button data-name="pause" class="btn btn-primary">Pause</button>
             <button data-name="reset" class="btn btn-danger">Reset</button>
         </div>
-        <div class="speed">
+        <table id="slider-table">
+            <tr style="border: none;">
+                <td class="speed">Speed:</td>
+                <td style="border: none;"><input id="speed-slider" type="range" min="1" max="100" value="50" onkeydown="return false;" step="1" style="outline: none;"></td>
+            </tr>
+            <tr style="border: none;">
+                <td class="map">Map:</td>
+                <td style="border: none;"><input id="map-slider" type="range" min="1" max="100" value="50" onkeydown="return false;" step="1" style="outline: none;"> </td>
+            </tr>
+        </table>
+        <!-- <div class="speed">
             Speed: <input id="speed-slider" type="range" min="1" max="100" value="50" onkeydown="return false;" step="1" style="outline: none;"> 
         </div>
         <div class="map">
             Map: <input id="map-slider" type="range" min="1" max="100" value="50" onkeydown="return false;" step="1" style="outline: none;"> 
-        </div>
+        </div> -->
         <div class="score">
             Score: <span id="score">0</span>
         </div>

@@ -160,6 +160,8 @@ function setMapSize() {
 
 function set_gridCount() {
     let size = parseInt((0.6667*document.querySelector('#map-slider').value) + 20.3333);
+
+    // make sure odd number
     if (size % 2 === 0) {
         size += 1;
     }

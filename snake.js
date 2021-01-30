@@ -203,7 +203,7 @@ function spawnFood() {
             food.push(coord);
 
             // color cell
-            gameCanvas.querySelector(`#X${x_coord}Y${y_coord}`).className = 'green_cell';
+            gameCanvas.querySelector(`#X${x_coord}Y${y_coord}`).className = 'red_cell';
             break;
         }
     }
@@ -245,8 +245,11 @@ function oppositeMove(m1, m2) {
 function drawSnake() {
     snake.forEach(section => {
         // console.log(`X: ${section.x} Y: ${section.y}`);
-        gameCanvas.querySelector(`#X${section.x}Y${section.y}`).className = 'black_cell';
+        gameCanvas.querySelector(`#X${section.x}Y${section.y}`).className = 'green_cell';
     })
+
+    const snake_head = snake[snake.length - 1];
+    gameCanvas.querySelector(`#X${snake_head.x}Y${snake_head.y}`).className = 'snake_head';
 }
 
 // check if new head is out of bound or hits its own body
@@ -306,9 +309,10 @@ function moveSnake() {
             snake.shift();
             // console.log(`snake remove tail: ${JSON.stringify(snake)}`)
         }
-        // add new head to snake array and make it black
+        // add new head to snake array and color it
         snake.push(new_head);
-        gameCanvas.querySelector(`#X${new_head.x}Y${new_head.y}`).className = 'black_cell';
+        gameCanvas.querySelector(`#X${new_head.x}Y${new_head.y}`).className = 'snake_head';
+        gameCanvas.querySelector(`#X${old_head.x}Y${old_head.y}`).className = 'green_cell';
         // console.log(`snake after: ${JSON.stringify(snake)}`)
     }
 }

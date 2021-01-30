@@ -81,3 +81,7 @@ table, tr, td {
 .green_cell {
     background-color: green;
 }
+
+.snake_head {
+    background-color: purple;
+}

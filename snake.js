@@ -29,6 +29,7 @@ function snakeCoord () {
     snake = [...starting_snake];
 }
 
+
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
     // check local storage for slider
@@ -82,7 +83,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });  
+
+    
 });
+
+// check for device
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    // true for mobile device
+    alert('This game is only supported on desktop devices');
+}
 
 // add event listener to button
 function buttonAction() {

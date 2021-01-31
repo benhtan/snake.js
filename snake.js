@@ -52,6 +52,15 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('localMapSliderPosition', document.querySelector('#map-slider').value);
         }
         set_gridCount();
+
+        const localHighScore = localStorage.getItem('localHighScore');
+
+        if (localHighScore) {
+            document.querySelector('#highScore').innerHTML = localHighScore;
+            highScore = localHighScore
+        } else {
+            localStorage.setItem('localHighScore', 0);
+        }
     }
     
     // set button action
@@ -332,6 +341,7 @@ function addScore(reset = false) {
     if (score > highScore) {
         highScore = score;
         document.querySelector('#highScore').innerHTML = highScore;
+        localStorage.setItem('localHighScore', highScore);
     }
 }
 

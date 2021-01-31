@@ -1,6 +1,7 @@
 var gridCount = 51;   // has to be odd number 21-87
 
 var score = 0;
+var highScore = 0;
 var food = [];
 var starting_snake = [];
 var snake = [];
@@ -327,6 +328,11 @@ function addScore(reset = false) {
         score += Math.ceil(document.querySelector('#speed-slider').value);
     }    
     document.querySelector('#score').innerHTML = score;
+
+    if (score > highScore) {
+        highScore = score;
+        document.querySelector('#highScore').innerHTML = highScore;
+    }
 }
 
 // speed slider curve

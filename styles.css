@@ -1,5 +1,5 @@
 .speed {
-    margin: auto;
+    /* margin: auto; */
     font-size: 2vh;
     text-align: right;
     border: none;
@@ -21,7 +21,7 @@
 }
 
 #gameCanvas {
-    border: 3px solid black;
+    border: 3px solid grey;
     width: 60vh;
     height: 60vh;
     margin: auto;
@@ -56,10 +56,10 @@ body {
 }
 
 table, tr, td {
-    border: 1px solid lightgrey;
+    border: 1px solid #E0E0E0;
     border-collapse: collapse;
     background-color: white;
-    font-size: 4vh;
+    /* font-size: 4vh; */
     table-layout: fixed;
 }
 
@@ -95,4 +95,23 @@ table, tr, td {
 
 #map-slider, #speed-slider {
     margin-left: 2vh;
+}
+
+#score-table {
+    margin: auto;
+    border: none;
+}
+
+.no-border{
+    border: none;
+    vertical-align: middle;
+}
+
+svg{
+    /* border: 1px solid black; */
+    margin-bottom: .5vh;
+}
+
+#highscore-icon, #score-icon {
+    margin-top: 1vh;
 }
